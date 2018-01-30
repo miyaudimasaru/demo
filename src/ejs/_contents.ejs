@@ -1,0 +1,17 @@
+<% if(data.id === "contents"){ %>
+  <h1>contents</h1>
+<% }else if (data.id === 'about') { %>
+  <h1>about</h1>
+  <% include loop %>
+<% }else if (data.id === 'news') {%>
+  <div>
+    <p class="target">Target</p>
+    <ul>
+      <li><p>list01</p></li>
+      <li><p>list02</p></li>
+      <li><p>list03</p></li>
+      <li><p>list04</p></li>
+      <li><p>list05</p></li>
+    </ul>
+  </div>
+<% } %>

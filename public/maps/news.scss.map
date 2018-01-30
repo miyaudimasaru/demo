@@ -1,0 +1,1 @@
+{"version":3,"names":[],"mappings":"","sources":["news.scss"],"sourcesContent":["body{\n  padding: 0;\n  margin: 0;\n}\n"],"file":"../sass/news.scss"}

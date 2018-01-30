@@ -1,0 +1,20 @@
+body,ul,li,h1,p{
+  padding: 0;
+  margin: 0;
+  box-sizing: content-box;
+}
+.section-inner,footer {
+  width: 1027px;
+  margin: 0 auto;
+}
+header {
+  width: 1027px;
+  margin: 0 auto;
+  ul {
+    font-size: 0;
+  }
+  li {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}

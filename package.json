@@ -1,0 +1,25 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-ejs": "^2.3.0",
+    "gulp-notify": "^2.2.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-sass": "^3.0.0",
+    "gulp-webserver": "^0.9.1"
+  },
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^2.6.2"
+  }
+}

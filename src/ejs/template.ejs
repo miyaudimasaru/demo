@@ -1,0 +1,14 @@
+<%
+var data = jsonData;
+%><% include _head %>
+<body>
+<% include _header %>
+<section class="main">
+  <div class="section-inner">
+    <h1><%= data.title %>です</h1>
+    <% include _contents %>
+  </div>
+</section>
+<% include _footer %>
+</body>
+</html>

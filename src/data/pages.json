@@ -1,0 +1,44 @@
+{
+  "pages": [
+    {
+      "id": "index",
+      "parentId": "",
+      "title": "index",
+      "description": "メインページのディスクリプション",
+      "css": "public/css/",
+      "passjs": "public/js/"
+    },
+    {
+      "id": "about",
+      "parentId": "about",
+      "title": "about",
+      "description": "about",
+      "css": "../public/css/",
+      "passjs": "../public/js/"
+    },
+    {
+      "id": "news",
+      "parentId": "news",
+      "title": "news",
+      "description": "newsページ",
+      "css": "../public/css/",
+      "passjs": "../public/js/"
+    },
+    {
+      "id": "inner",
+      "parentId": "news",
+      "title": "news-inner",
+      "description": "news-innerページ",
+      "css": "../public/css/",
+      "passjs": "../public/js/"
+    },
+    {
+      "id": "contents",
+      "parentId": "contents",
+      "title": "contents",
+      "description": "contentsページ",
+      "css": "../public/css/",
+      "passjs":"../public/js/"
+    }
+  ]
+}

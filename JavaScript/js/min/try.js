@@ -1,0 +1,1 @@
+!function(){document.getElementById("divisor"),document.getElementById("slider")}();

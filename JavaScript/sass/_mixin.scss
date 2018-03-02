@@ -1,0 +1,267 @@
+@charset "UTF-8";
+
+
+
+// Base Layout
+$Size_Min : 320; // スマホ最小幅
+$Size_Spd : 750; // スマホPSDサイズ
+$Size_Sp : 1023; // スマホ - タブレットサイズ分水嶺
+$Size_Tb : 1280; // タブレット - PCサイズ分水嶺
+$Size_Pc : 10000; // 幅広PCサイズ分水嶺
+$SP : 750; // スマホPSDサイズ
+$TB : 1280; // スマホ - タブレットサイズ分水嶺
+
+
+// Base Fontsize
+$Fz_root : 10; // html {font-size: 62.5%} を想定
+$Fz_sp : 15; // スマホ本文サイズ
+$Fz_tb : 14; // タブレット本文サイズ
+$Fz_pc : 14; // PC本文サイズ
+
+
+// Base LinkColor
+$Anc_def : #ffcccc; // デフォルト
+$Anc_hov : #ccccff; // ホバー
+$Anc_vis : #ccffcc; // 訪問済
+$Anc_act : #ffcccc; // 押した時
+
+
+// Break Point
+@mixin BP_sp { // スマホ 0px 〜 Size_Spで設定した値以下
+  @media only screen and (max-width : $Size_Sp + "px") {
+    @content;
+  }
+}
+
+@mixin BP_tbsp { // スマホ 0px 〜 Size_Tbで設定した値以下
+  @media only screen and (max-width : $Size_Tb + "px") {
+    @content;
+  }
+}
+
+@mixin BP_tb { // タブレット Size_Spで設定した値より大きい 〜 Size_Tbで設定した値以下
+  @media only screen and (min-width : $Size_Sp + 1 + "px") and (max-width : $Size_Tb + "px") {
+    @content;
+  }
+}
+
+@mixin BP_pc { // PC Size_Tbで設定した値より大きい
+  @media print , screen and (min-width : $Size_Tb + 1 + "px") {
+    @content;
+  }
+}
+
+@mixin BP_nallowpc { // PC 幅広でない場合のみ
+  @media print , screen and (min-width : $Size_Tb + 1 + "px") and (max-width : $Size_Pc + "px") {
+    @content;
+  }
+}
+
+@mixin BP_widepc { // PC 幅広の場合のみ
+  @media screen and (min-width : $Size_Pc + 1 + "px") {
+    @content;
+  }
+}
+
+
+// Vendor Prefix
+@mixin VP($name, $argument) {
+  -webkit-#{$name}: #{$argument};
+  -ms-#{$name}: #{$argument};
+  -moz-#{$name}: #{$argument};
+  -o-#{$name}: #{$argument};
+  #{$name}: #{$argument};
+}
+
+
+// Font Processer
+@function processer_vw($font_size , $viewport_size , $imp) { // vm 出力計算コア
+  $rate: 100 / $viewport_size;
+	$imp_stg: '';
+  @if $imp == true {
+		$imp_stg: ' !important';
+	}
+  @return unquote(($rate * $font_size * 1vw) + $imp_stg);
+}
+
+@mixin FZ_vwX($num_pc:$Fz_pc , $num_sp:$Fz_sp , $imp_flag:false) { // vm変換 引数省略可
+  font-size: $num_pc * 1px;
+  font-size: processer_vw($num_pc , $Size_Pc , $imp_flag);
+	@include BP_widepc {
+		@if $imp_flag == true {
+			font-size: $num_pc * 1px + ' !important';
+		}
+		@else {
+
+
+			font-size: $num_pc * 1px;
+		}
+	}
+
+	@include BP_sp {
+		font-size: $num_sp * 1px;
+		font-size: processer_vw($num_sp , $Size_Sp , $imp_flag);
+	}
+}
+
+@mixin FZ_vw($size:$Fz_sp , $viewport:$Size_Sp , $imp_flag:false) { // vm変換 引数省略可
+  font-size: $size * 1px;
+  font-size: processer_vw($size , $viewport , $imp_flag);
+}
+
+@mixin FZ_rem($size:10 , $root:10) { // rem変換 引数省略可
+  font-size: $size * 1px;
+  font-size: ($size / $root) * 1rem;
+}
+
+@mixin FZ_em($size:10 , $parent:10) { // em変換 第2引数には親要素のサイズを入力 （省略可）
+  font-size: ($size / $parent) * 1em;
+}
+
+
+// Margin Processer
+@mixin VW($target , $size , $viewport:$Size_Sp , $imp_flag:false) { // vw変換 第1引数はcss属性 第3引数以降省略可
+	$imp_stg: '';
+  @if $imp_flag == true {
+		$imp_stg: ' !important';
+	}
+	#{$target}: unquote($size * 1px + $imp_stg);
+	#{$target}: processer_vw($size , $viewport , $imp_flag);
+}
+
+@mixin VWX($target , $num_pc , $num_sp , $imp_flag:false) { // vw変換 第1引数はcss属性 第3引数以降省略可
+	$imp_stg: '';
+  @if $imp_flag == true {
+		$imp_stg: ' !important';
+	}
+	#{$target}: unquote($num_pc * 1px + $imp_stg);
+	#{$target}: processer_vw($num_pc , $Size_Pc , $imp_flag);
+	@include BP_widepc {
+		@if $imp_flag == true {
+			#{$target}: unquote($num_pc * 1px + $imp_stg);
+		}
+		@else {
+
+			#{$target}: unquote($num_pc * 1px);
+
+
+		}
+	}
+	@include BP_sp {
+
+		#{$target}: unquote($num_sp * 1px + $imp_stg);
+		#{$target}: processer_vw($num_sp , $Size_Spd , $imp_flag);
+	}
+}
+
+
+// Indent
+@mixin Indent($em_n:1) { // 頭出しの汎用インデント 引数省略で1em
+	padding-left: $em_n * 1em;
+	text-indent: (0 - $em_n) * 1em;
+}
+
+
+// Text transfar
+@mixin txt_on() { // テキスト飛ばし
+	display: inline-block;
+	white-space: nowrap;
+	text-indent: 300%;
+	overflow: hidden;
+	background-repeat: no-repeat;
+	background-position: 0 0;
+	background-size: contain;
+}
+@mixin txt_off() { // テキスト飛ばし解除
+	display: inline-block;
+	white-space: normal;
+	text-indent: 0;
+	overflow: visible;
+	background-image: none !important;
+}
+
+
+// Image transfar
+@mixin imt_on() { // imgタグ飛ばし
+	display: inline-block;
+	background-repeat: no-repeat;
+	background-position: 0 0;
+	background-size: contain;
+	img {
+		display: none;
+	}
+}
+@mixin imt_off() { // imgタグ飛ばし解除
+	background-image: none !important;
+	img {
+		display: inline;
+	}
+}
+
+
+// Hover Opacity
+@mixin H_opacity($opa:0.7) { // ホバー時の透過設定 引数省略で0.7
+	transition: opacity 0.35s ease;
+	&:hover {
+		opacity: $opa;
+	}
+}
+
+
+// List
+@mixin Plane_list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+// Basically Before & After Format
+@mixin BA($pos:absolute) { // Before , After基本セット 引数省略ならposition: absolute;
+	content: "";
+	display: inline-block;
+	position: $pos;
+	width: auto;
+	height: auto;
+	background-repeat: no-repeat;
+	background-position: 0 0;
+	background-size: contain;
+}
+
+
+// clearfix
+@mixin CF($flag:false) {
+	& {
+		*zoom: 1;
+		&:after {
+			content: "";
+
+			display: table;
+			clear: both;
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@if $flag == pc {
+		@include BP_tbsp {
+			&:after {
+				display: none;
+			}
+		}
+	}
+	@else if $flag == pctb {
+		@include BP_sp {
+			&:after {
+				display: none;
+			}
+		}
+	}
+}

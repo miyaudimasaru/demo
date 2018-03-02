@@ -1,0 +1,1 @@
+function Slider(){}$(function(){var n=new Slider;console.log(n)}),Slider.prototype=new Main;
